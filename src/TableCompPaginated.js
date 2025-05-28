@@ -1,17 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-const TableComp = () => {
-  const [data, setData] = useState([]);
+const TableComp = ({ data }) => {
   const rowsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch("https://randomuser.me/api/?results=1000");
-      const res = await response.json();
-      setData(res.results);
-    }
-    fetchData();
-  }, []);
   const totalPages = Math.ceil(data.length / rowsPerPage);
   const startIndex = (currentPage - 1) * rowsPerPage;
   const currentRows = data.slice(startIndex, startIndex + rowsPerPage);
@@ -28,7 +19,7 @@ const TableComp = () => {
     let endPage = startPage + maxVisiblePage;
     if (endPage > totalPages) {
       endPage = totalPages;
-      startPage = Math.max(endPage - maxVisiblePages + 1, 1);
+      startPage = Math.max(endPage - maxVisiblePage + 1, 1);
     }
     for (let i = startPage; i <= endPage; i++) {
       pageNumbers.push(i);
